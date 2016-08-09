@@ -26,7 +26,7 @@ class PostinstallControllerMessage extends JControllerLegacy
 	public function reset()
 	{
 		/** @var PostinstallModelMessages $model */
-		$model = $this->getModel();
+		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
 
 		$eid = (int) $model->getState('eid', '700', 'int');
 
@@ -40,6 +40,26 @@ class PostinstallControllerMessage extends JControllerLegacy
 		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
 	}
 
+
+	public function unpublish(){
+		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
+
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id');
+
+		$eid = (int) $model->getState('eid', '700', 'int');
+
+		if (empty($eid))
+		{
+			$eid = 700;
+		}
+
+		$model->setState('published', 0, 'int');
+		$model->unpublishMessage($id);
+
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+	}
+
 	/**
 	 * Executes the action associated with an item.
 	 *
@@ -49,22 +69,12 @@ class PostinstallControllerMessage extends JControllerLegacy
 	 */
 	public function action()
 	{
+		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
 
-		// CSRF prevention.
-//		if ($this->csrfProtection)
-//		{
-//			$this->_csrfProtection();
-//		}
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id');
 
-		//$model = $this->getModel();
-
-//		if (!$model->getId())
-//		{
-//			$model->setIDsFromRequest();
-//		}
-
-
-		$item = $model->getItem();
+		$item = $model->getItem($id);
 
 		switch ($item->type)
 		{
