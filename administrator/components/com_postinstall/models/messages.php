@@ -18,6 +18,57 @@ class PostinstallModelMessages extends JModelLegacy
 {
 
 	/**
+	 * Gets an item with the given id from the database
+	 *
+	 * @param   int  $id  ?
+	 *
+	 * @return  Object
+	 *
+	 * @since   3.2
+	 */
+	public function getItem($id){
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+		$query->select(
+			$db->quoteName(
+				array
+				('postinstall_message_id',
+					'extension_id',
+					'title_key',
+					'description_key',
+					'action_key',
+					'language_extension',
+					'language_client_id',
+					'type',
+					'action_file',
+					'action',
+					'condition_file',
+					'condition_method',
+					'version_introduced',
+					'enabled')
+			)
+		)->from($db->quoteName('#__postinstall_messages'))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+
+		$db->setQuery($query);
+
+		$result = $db->loadObject();
+
+		return $result;
+
+	}
+
+	public function unpublishMessage($id){
+
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__postinstall_messages'))->set($db->qn('enabled') . ' = ' . $db->q(0))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+		$db->setQuery($query);
+		$db->execute();
+	}
+
+	/**
 	 *
 	 *
 	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
@@ -52,6 +103,14 @@ class PostinstallModelMessages extends JModelLegacy
 									)
 		);
 
+		// Add a forced extension filtering to the list
+		$eid = $this->getState('eid', 700);
+		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+
+		// Force filter only enabled messages
+		$published = $this->getState('published', 1, 'int');
+		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
+
 		$query->from($db->quoteName('#__postinstall_messages'));
 
 		$db->setQuery($query);
@@ -59,6 +118,7 @@ class PostinstallModelMessages extends JModelLegacy
 		$result = $db->loadObjectList();
 
 		$this->onProcessList($result);
+
 
 		return $result;
 	}
@@ -175,6 +235,9 @@ class PostinstallModelMessages extends JModelLegacy
 
 		// Order the results DESC so the newest is on the top.
 		$resultArray = array_reverse($resultArray);
+
+
+
 
 		foreach ($resultArray as $key => $item)
 		{

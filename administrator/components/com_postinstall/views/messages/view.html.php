@@ -30,7 +30,7 @@ class PostinstallViewMessages extends JViewLegacy
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getModel();
 
-		$this->items = $this->get('Items');
+		$this->items = $model->getItems();
 
 		$this->eid = (int) $model->getState('eid', '700', 'int');
 

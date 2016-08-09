@@ -16,16 +16,16 @@ defined('_JEXEC') or die;
  */
 class PostinstallToolbar extends JToolbar
 {
-//	/**
-//	 * Setup the toolbar and title
-//	 *
-//	 * @return  void
-//	 *
-//	 * @since   3.2
-//	 */
-//	public function onMessages()
-//	{
-//		JToolBarHelper::preferences($this->config['option'], 550, 875);
-//		JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
-//	}
+	/**
+	 * Setup the toolbar and title
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function onMessages()
+	{
+		JToolBarHelper::preferences($this->config['option'], 550, 875);
+		JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+	}
 }
