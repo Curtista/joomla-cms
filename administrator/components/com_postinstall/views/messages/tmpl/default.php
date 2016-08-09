@@ -61,7 +61,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</a>
 			<?php endif; ?>
 			<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
-			<a href="index.php?option=com_postinstall&amp;view=message&amp;task=unpublish&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-inverse btn-small">
+			<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=unpublish&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-inverse btn-small">
 				<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 			</a>
 			<?php endif; ?>

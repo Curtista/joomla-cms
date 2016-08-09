@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.2
  */
-class PostinstallControllerMessage extends FOFController
+class PostinstallControllerMessage extends JControllerLegacy
 {
 	/**
 	 * Resets all post-installation messages of the specified extension.
@@ -26,7 +26,7 @@ class PostinstallControllerMessage extends FOFController
 	public function reset()
 	{
 		/** @var PostinstallModelMessages $model */
-		$model = $this->getThisModel();
+		$model = $this->getModel();
 
 		$eid = (int) $model->getState('eid', '700', 'int');
 
@@ -49,18 +49,20 @@ class PostinstallControllerMessage extends FOFController
 	 */
 	public function action()
 	{
+
 		// CSRF prevention.
-		if ($this->csrfProtection)
-		{
-			$this->_csrfProtection();
-		}
+//		if ($this->csrfProtection)
+//		{
+//			$this->_csrfProtection();
+//		}
 
-		$model = $this->getThisModel();
+		//$model = $this->getModel();
 
-		if (!$model->getId())
-		{
-			$model->setIDsFromRequest();
-		}
+//		if (!$model->getId())
+//		{
+//			$model->setIDsFromRequest();
+//		}
+
 
 		$item = $model->getItem();
 
