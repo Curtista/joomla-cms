@@ -14,10 +14,11 @@ defined('_JEXEC') or die;
  *
  * @since  3.2
  */
-class PostinstallModelMessages extends FOFModel
+class PostinstallModelMessages extends JModelLegacy
 {
+
 	/**
-	 * Builds the SELECT query
+	 *
 	 *
 	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
 	 *
@@ -25,22 +26,68 @@ class PostinstallModelMessages extends FOFModel
 	 *
 	 * @since   3.2
 	 */
-	public function buildQuery($overrideLimits = false)
+	public function getItems()
 	{
-		$query = parent::buildQuery($overrideLimits);
-
 		$db = $this->getDbo();
 
-		// Add a forced extension filtering to the list
-		$eid = $this->getState('eid', 700);
-		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+		$query = $db->getQuery(true);
 
-		// Force filter only enabled messages
-		$published = $this->getState('published', 1, 'int');
-		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
+		$query->select(
+			$db->quoteName(
+				array
+			('postinstall_message_id',
+											'extension_id',
+											'title_key',
+											'description_key',
+											'action_key',
+											'language_extension',
+											'language_client_id',
+											'type',
+											'action_file',
+											'action',
+											'condition_file',
+											'condition_method',
+											'version_introduced',
+											'enabled')
+									)
+		);
 
-		return $query;
+		$query->from($db->quoteName('#__postinstall_messages'));
+
+		$db->setQuery($query);
+
+		$result = $db->loadObjectList();
+
+		$this->onProcessList($result);
+
+		return $result;
 	}
+
+//	/**
+//	 * Builds the SELECT query
+//	 *
+//	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
+//	 *
+//	 * @return  JDatabaseQuery
+//	 *
+//	 * @since   3.2
+//	 */
+//	public function buildQuery($overrideLimits = false)
+//	{
+//		$query = parent::buildQuery($overrideLimits);
+//
+//		$db = $this->getDbo();
+//
+//		// Add a forced extension filtering to the list
+//		$eid = $this->getState('eid', 700);
+//		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+//
+//		// Force filter only enabled messages
+//		$published = $this->getState('published', 1, 'int');
+//		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
+//
+//		return $query;
+//	}
 
 	/**
 	 * Returns the name of an extension, as registered in the #__extensions table
