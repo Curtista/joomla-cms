@@ -117,7 +117,7 @@ class PostinstallModelMessages extends JModelLegacy
 		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
 
 		// Force filter only enabled messages
-		$published = $this->getState('published', 1, 'int');
+		$published = $this->getState('published', 1);
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
 
 		$query->from($db->quoteName('#__postinstall_messages'));
@@ -225,6 +225,7 @@ class PostinstallModelMessages extends JModelLegacy
 			{
 				jimport('joomla.filesystem.file');
 
+				//TODO: PARSE FUNCTION
 				$file = FOFTemplateUtils::parsePath($item->condition_file, true);
 
 				if (JFile::exists($file))
@@ -367,6 +368,7 @@ class PostinstallModelMessages extends JModelLegacy
 	 */
 	public function addPostInstallationMessage(array $options)
 	{
+
 		// Make sure there are options set
 		if (!is_array($options))
 		{

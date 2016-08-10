@@ -28,7 +28,7 @@ class PostinstallControllerMessage extends JControllerLegacy
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
 
-		$eid = (int) $model->getState('eid', '700', 'int');
+		$eid = (int) $model->getState('eid', '700');
 
 		if (empty($eid))
 		{
@@ -54,14 +54,14 @@ class PostinstallControllerMessage extends JControllerLegacy
 		$jinput = JFactory::getApplication()->input;
 		$id = $jinput->get('id');
 
-		$eid = (int) $model->getState('eid', '700', 'int');
+		$eid = (int) $model->getState('eid', '700');
 
 		if (empty($eid))
 		{
 			$eid = 700;
 		}
 
-		$model->setState('published', 0, 'int');
+		$model->setState('published', 0);
 		$model->unpublishMessage($id);
 
 		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
