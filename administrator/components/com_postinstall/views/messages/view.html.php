@@ -49,7 +49,6 @@ class PostinstallViewMessages extends JViewLegacy
 		if ($this->eid != 700)
 		{
 			$extension_name = $model->getExtensionName($this->eid);
-
 		}
 
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
@@ -57,10 +56,15 @@ class PostinstallViewMessages extends JViewLegacy
 		return parent::display($tpl);
 	}
 
-
+	/**
+	 * displays the toolbar
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
 	private function toolbar()
 	{
-
 		// Options button.
 		if (JFactory::getUser()->authorise('core.admin', 'com_postinstall'))
 		{
