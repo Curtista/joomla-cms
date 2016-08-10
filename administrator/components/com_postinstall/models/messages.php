@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class PostinstallModelMessages extends JModelLegacy
 {
-
 	/**
 	 * Gets an item with the given id from the database
 	 *
@@ -26,7 +25,8 @@ class PostinstallModelMessages extends JModelLegacy
 	 *
 	 * @since   3.2
 	 */
-	public function getItem($id){
+	public function getItem($id)
+	{
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true);
@@ -55,23 +55,26 @@ class PostinstallModelMessages extends JModelLegacy
 		$result = $db->loadObject();
 
 		return $result;
-
 	}
 
-    /**
-     * Unpublishes specified post-install message
-     *
-     * @param   integer  $id The message id
-     *
-     * @return  void
-     *
-     */
-	public function unpublishMessage($id){
-
+	/**
+	 * Unpublishes specified post-install message
+	 *
+	 * @param   integer  $id  The message id
+	 *
+	 * @return   void
+	 */
+	public function unpublishMessage($id)
+	{
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__postinstall_messages'))->set($db->qn('enabled') . ' = ' . $db->q(0))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+		$query->update(
+			$db->quoteName(
+				'#__postinstall_messages')
+		)->set($db->qn('enabled') . ' = ' . $db->q(0))->where(
+				$db->qn('postinstall_message_id') . ' = ' . $db->q($id)
+		);
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -124,7 +127,6 @@ class PostinstallModelMessages extends JModelLegacy
 		$result = $db->loadObjectList();
 
 		$this->onProcessList($result);
-
 
 		return $result;
 	}
@@ -215,9 +217,6 @@ class PostinstallModelMessages extends JModelLegacy
 
 		// Order the results DESC so the newest is on the top.
 		$resultArray = array_reverse($resultArray);
-
-
-
 
 		foreach ($resultArray as $key => $item)
 		{
