@@ -20,7 +20,7 @@ class PostinstallModelMessages extends JModelLegacy
 	/**
 	 * Gets an item with the given id from the database
 	 *
-	 * @param   int  $id  ?
+	 * @param   integer  $id  The item id
 	 *
 	 * @return  Object
 	 *
@@ -58,6 +58,14 @@ class PostinstallModelMessages extends JModelLegacy
 
 	}
 
+    /**
+     * Unpublishes specified post-install message
+     *
+     * @param   integer  $id The message id
+     *
+     * @return  void
+     *
+     */
 	public function unpublishMessage($id){
 
 		$db = $this->getDbo();
@@ -69,11 +77,9 @@ class PostinstallModelMessages extends JModelLegacy
 	}
 
 	/**
+	 * Returns a list of messages from the #__postinstall_messages table
 	 *
-	 *
-	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
-	 *
-	 * @return  JDatabaseQuery
+	 * @return  Object
 	 *
 	 * @since   3.2
 	 */

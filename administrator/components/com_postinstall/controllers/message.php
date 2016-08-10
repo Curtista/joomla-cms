@@ -40,8 +40,14 @@ class PostinstallControllerMessage extends JControllerLegacy
 		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
 	}
 
+    /**
+     * Unpublishes post-installation message of the specified extension.
 
-	public function unpublish() {
+     * @return  void
+     *
+     * @since   3.2
+     */
+	public function unpublish(){
 		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
 
 		$jinput = JFactory::getApplication()->input;

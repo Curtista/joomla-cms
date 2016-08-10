@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     ${NAMESPACE}
- * @subpackage
+ * @package     Joomla.Administrator
+ * @subpackage  com_postinstall
  *
- * @copyright   A copyright
- * @license     A "Slug" license name e.g. GPL2
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,8 +12,22 @@ defined('_JEXEC') or die;
 class PostinstallController extends JControllerLegacy
 {
 
+    /**
+     * @var		string	The default view.
+     * @since   1.6
+     */
 	protected $default_view = 'messages';
 
+    /**
+     * Method to display a view.
+     *
+     * @param   boolean  $cachable   If true, the view output will be cached
+     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+     *
+     * @return  PostinstallController  This object to support chaining.
+     *
+     * @since   1.5
+     */
 	public function display($cachable = false, $urlparams = false)
 	{
 
