@@ -66,9 +66,6 @@ class PostinstallViewMessages extends JViewLegacy
 		{
 			JToolBarHelper::preferences('com_postinstall', 550, 875);
 			JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
-
-
-
 		}
 	}
 }
