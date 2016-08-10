@@ -39,6 +39,8 @@ class PostinstallViewMessages extends JViewLegacy
 			$this->eid = 700;
 		}
 
+		$this->toolbar();
+
 		$this->token = JFactory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
 
@@ -53,5 +55,20 @@ class PostinstallViewMessages extends JViewLegacy
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
 
 		return parent::display($tpl);
+	}
+
+
+	private function toolbar()
+	{
+
+		// Options button.
+		if (JFactory::getUser()->authorise('core.admin', 'com_postinstall'))
+		{
+			JToolBarHelper::preferences('com_postinstall', 550, 875);
+			JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+
+
+
+		}
 	}
 }
