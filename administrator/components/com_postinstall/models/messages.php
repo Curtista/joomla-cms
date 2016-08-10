@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ADMINISTRATOR . '/components/com_postinstall/helpers/postinstall.php';
+
 /**
  * Model class to manage postinstall messages
  *
@@ -69,12 +71,8 @@ class PostinstallModelMessages extends JModelLegacy
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true);
-		$query->update(
-			$db->quoteName(
-				'#__postinstall_messages')
-		)->set($db->qn('enabled') . ' = ' . $db->q(0))->where(
-				$db->qn('postinstall_message_id') . ' = ' . $db->q($id)
-		);
+		$query->update($db->quoteName('#__postinstall_messages'))
+			->set($db->qn('enabled') . ' = ' . $db->q(0))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -225,8 +223,8 @@ class PostinstallModelMessages extends JModelLegacy
 			{
 				jimport('joomla.filesystem.file');
 
-				//TODO: PARSE FUNCTION
-				$file = FOFTemplateUtils::parsePath($item->condition_file, true);
+				$helper = new PostinstallHelper;
+				$file = $helper->parsePath($item->action_file);
 
 				if (JFile::exists($file))
 				{
@@ -368,7 +366,6 @@ class PostinstallModelMessages extends JModelLegacy
 	 */
 	public function addPostInstallationMessage(array $options)
 	{
-
 		// Make sure there are options set
 		if (!is_array($options))
 		{
@@ -462,7 +459,8 @@ class PostinstallModelMessages extends JModelLegacy
 				throw new Exception('Post-installation message definitions need an action file when they are of type "action"', 500);
 			}
 
-			$file_path = FOFTemplateUtils::parsePath($options['action_file'], true);
+			$helper = new PostinstallHelper;
+			$file_path = $helper->parsePath($options['action_file']);
 
 			if (!@is_file($file_path))
 			{
@@ -491,7 +489,8 @@ class PostinstallModelMessages extends JModelLegacy
 				throw new Exception('Post-installation message definitions need a condition file when they are of type "' . $options['type'] . '"', 500);
 			}
 
-			$file_path = FOFTemplateUtils::parsePath($options['condition_file'], true);
+			$helper = new PostinstallHelper;
+			$file_path = $helper->parsePath($options['condition_file']);
 
 			if (!@is_file($file_path))
 			{

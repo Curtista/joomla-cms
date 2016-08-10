@@ -76,6 +76,7 @@ class PostinstallControllerMessage extends JControllerLegacy
 	 */
 	public function action()
 	{
+		require_once JPATH_ADMINISTRATOR . '/components/com_postinstall/helpers/postinstall.php';
 		$model = $this->getModel('Messages', 'PostinstallModel', array('ignore_request' => true));
 
 		$jinput = JFactory::getApplication()->input;
@@ -95,7 +96,8 @@ class PostinstallControllerMessage extends JControllerLegacy
 			case 'action':
 				jimport('joomla.filesystem.file');
 
-				$file = FOFTemplateUtils::parsePath($item->action_file, true);
+				$helper = new PostinstallHelper;
+				$file = $helper->parsePath($item->action_file);
 
 				if (JFile::exists($file))
 				{
