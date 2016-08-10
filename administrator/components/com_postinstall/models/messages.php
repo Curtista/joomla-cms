@@ -20,7 +20,7 @@ class PostinstallModelMessages extends JModelLegacy
 	/**
 	 * Gets an item with the given id from the database
 	 *
-	 * @param   int  $id  ?
+	 * @param   integer  $id  The item id
 	 *
 	 * @return  Object
 	 *
@@ -58,6 +58,14 @@ class PostinstallModelMessages extends JModelLegacy
 
 	}
 
+    /**
+     * Unpublishes specified post-install message
+     *
+     * @param   integer  $id The message id
+     *
+     * @return  void
+     *
+     */
 	public function unpublishMessage($id){
 
 		$db = $this->getDbo();
@@ -69,11 +77,9 @@ class PostinstallModelMessages extends JModelLegacy
 	}
 
 	/**
+	 * Returns a list of messages from the #__postinstall_messages table
 	 *
-	 *
-	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
-	 *
-	 * @return  JDatabaseQuery
+	 * @return  Object
 	 *
 	 * @since   3.2
 	 */
@@ -108,7 +114,7 @@ class PostinstallModelMessages extends JModelLegacy
 		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
 
 		// Force filter only enabled messages
-		$published = $this->getState('published', 1, 'int');
+		$published = $this->getState('published', 1);
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
 
 		$query->from($db->quoteName('#__postinstall_messages'));
@@ -122,32 +128,6 @@ class PostinstallModelMessages extends JModelLegacy
 
 		return $result;
 	}
-
-//	/**
-//	 * Builds the SELECT query
-//	 *
-//	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
-//	 *
-//	 * @return  JDatabaseQuery
-//	 *
-//	 * @since   3.2
-//	 */
-//	public function buildQuery($overrideLimits = false)
-//	{
-//		$query = parent::buildQuery($overrideLimits);
-//
-//		$db = $this->getDbo();
-//
-//		// Add a forced extension filtering to the list
-//		$eid = $this->getState('eid', 700);
-//		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
-//
-//		// Force filter only enabled messages
-//		$published = $this->getState('published', 1, 'int');
-//		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
-//
-//		return $query;
-//	}
 
 	/**
 	 * Returns the name of an extension, as registered in the #__extensions table
@@ -236,9 +216,6 @@ class PostinstallModelMessages extends JModelLegacy
 		// Order the results DESC so the newest is on the top.
 		$resultArray = array_reverse($resultArray);
 
-
-
-
 		foreach ($resultArray as $key => $item)
 		{
 			// Filter out messages based on dynamically loaded programmatic conditions.
@@ -246,6 +223,7 @@ class PostinstallModelMessages extends JModelLegacy
 			{
 				jimport('joomla.filesystem.file');
 
+				//TODO: PARSE FUNCTION
 				$file = FOFTemplateUtils::parsePath($item->condition_file, true);
 
 				if (JFile::exists($file))
@@ -388,6 +366,7 @@ class PostinstallModelMessages extends JModelLegacy
 	 */
 	public function addPostInstallationMessage(array $options)
 	{
+
 		// Make sure there are options set
 		if (!is_array($options))
 		{
